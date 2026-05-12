@@ -118,5 +118,9 @@ class DatabaseSeeder extends Seeder
             'stock' => 250,
             'poster_path' => 'posters/event-7.png',
         ]);
+
+        // 8. Insert Partner Dummy Data (minimal 5 baris)
+        $this->call(PartnerSeeder::class);
     }
 }
+
