@@ -97,6 +97,12 @@
 
     <!-- Main Content -->
     <main class="flex-1 p-10 overflow-y-auto">
+        @if(session('success'))
+            <div class="mb-6 rounded-3xl border border-emerald-100 bg-emerald-50 px-6 py-4 text-emerald-700 shadow-sm">
+                {{ session('success') }}
+            </div>
+        @endif
+
         @yield('content')
     </main>
 

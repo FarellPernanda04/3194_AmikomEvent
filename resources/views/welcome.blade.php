@@ -96,7 +96,7 @@
                                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                         <span>{{ \Carbon\Carbon::parse($event->date)->format('d-m-Y H:i') }}</span>
-                    </div>¬¬
+                    </div>
                     <div class="flex justify-between items-center pt-4 border-t">
                         <span class="text-2xl font-black text-indigo-600">Rp {{ number_format($event->price, 0, ',', '.') }}</span>
                         <a href="{{ route('events.show', $event->id) }}"
@@ -106,6 +106,30 @@
                 </div>
             </div>
             @endforeach
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="max-w-7xl mx-auto px-6 py-20">
+        <div class="mb-12 text-center">
+            <h2 class="text-3xl font-extrabold mb-2">Partner Pendukung</h2>
+            <p class="text-slate-500 font-medium">Mitra yang mendukung AmikomEventHub dan membantu event berjalan lancar.</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+            @forelse($partners as $partner)
+                <div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 flex flex-col items-center gap-4 text-center">
+                    <img src="{{ $partner->logo_url }}" alt="{{ $partner->name }}" class="w-24 h-24 object-cover rounded-3xl border" />
+                    <div>
+                        <p class="font-black text-slate-900">{{ $partner->name }}</p>
+                        <p class="text-sm text-slate-500">Partner Platform</p>
+                    </div>
+                </div>
+            @empty
+                <div class="col-span-full text-center text-slate-500 font-bold">
+                    Belum ada partner terdaftar.
+                </div>
+            @endforelse
         </div>
     </section>
 @endsection

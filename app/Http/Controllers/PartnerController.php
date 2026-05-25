@@ -7,9 +7,15 @@ use Illuminate\Http\Request;
 
 class PartnerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $partners = Partner::all();
+        $query = Partner::query();
+
+        if ($request->filled('q')) {
+            $query->where('name', 'like', '%' . $request->input('q') . '%');
+        }
+
+        $partners = $query->latest()->get();
 
         return view('admin.partners.index', compact('partners'));
     }
@@ -43,12 +49,14 @@ class PartnerController extends Controller
     {
         $partner = Partner::findOrFail($id);
 
-        $partner->update([
-            'name' => $request->name,
-            'logo_url' => $request->logo_url,
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'logo_url' => ['required', 'string', 'max:255'],
         ]);
 
-        return redirect('/admin/partners');
+        $partner->update($validated);
+
+        return redirect('/admin/partners')->with('success', 'Partner berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -57,6 +65,6 @@ class PartnerController extends Controller
 
         $partner->delete();
 
-        return redirect('/admin/partners');
+        return redirect('/admin/partners')->with('success', 'Partner berhasil dihapus.');
     }
 }

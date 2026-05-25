@@ -69,11 +69,21 @@
 
     <div class="px-8 py-6 bg-slate-50/50 border-b flex gap-4">
 
-        <input
-            type="text"
-            placeholder="Cari partner..."
-            class="flex-1 px-5 py-3 rounded-xl border-slate-200 border bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition"
-        >
+        <form action="/admin/partners" method="GET" class="flex-1 flex gap-4">
+            <input
+                type="text"
+                name="q"
+                value="{{ request('q') }}"
+                placeholder="Cari partner..."
+                class="flex-1 px-5 py-3 rounded-xl border-slate-200 border bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition"
+            >
+            <button
+                type="submit"
+                class="px-5 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 active:scale-95 transition"
+            >
+                Cari
+            </button>
+        </form>
 
     </div>
 
