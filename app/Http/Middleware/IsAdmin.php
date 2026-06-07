@@ -22,6 +22,6 @@ class IsAdmin
         }
 
         // Jika bukan admin, arahkan kembali ke login
-        return redirect()->route('admin.login')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        return redirect()->route('login')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
     }
 }

@@ -33,7 +33,7 @@
             @endif
 
             <!-- Login Form -->
-            <form action="{{ route('admin.login.post') }}" method="POST" class="space-y-6">
+            <form action="{{ route('login.post') }}" method="POST" class="space-y-6">
                 @csrf
 
                 <!-- Email Input -->
