@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 
 @section('content')
-    <header class="flex justify-between items-center mb-10">
+    <header class="flex flex-col gap-4 lg:flex-row lg:justify-between lg:items-center mb-10">
         <div>
             <h1 class="text-3xl font-black">Laporan Transaksi</h1>
             <p class="text-slate-500 font-medium">Pantau arus kas dan penjualan tiket Anda.</p>
         </div>
-        <div class="flex gap-4">
+        <div class="flex flex-wrap gap-3">
             <button
                 class="px-6 py-3 border-2 border-slate-200 rounded-2xl font-bold hover:bg-white hover:border-indigo-600 hover:text-indigo-600 transition">
                 Ekspor Excel
@@ -19,12 +19,12 @@
     </header>
 
     <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
-        <div class="px-8 py-6 bg-slate-50/50 border-b flex flex-wrap gap-4 items-center">
+        <div class="px-8 py-6 bg-slate-50/50 border-b flex flex-col lg:flex-row lg:justify-between gap-4 items-start">
             <div class="flex-1 min-w-[300px] flex gap-2">
                 <input type="text" placeholder="Cari Order ID, Nama, atau Email..."
-                    class="flex-1 px-5 py-3 rounded-xl border-slate-200 border bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition uppercase text-sm font-medium tracking-wide">
+                    class="flex-1 px-5 py-3 rounded-xl border-slate-200 border bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm font-medium tracking-wide">
             </div>
-            <div class="flex gap-2">
+            <div class="flex flex-wrap gap-2">
                 <select
                     class="px-5 py-3 rounded-xl border-slate-200 border bg-white outline-none text-sm font-bold">
                     <option>Semua Status</option>
@@ -54,88 +54,57 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y border-t">
-                    <tr class="hover:bg-slate-50/50 transition">
-                        <td class="px-8 py-6">
-                            <span
-                                class="font-mono font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-lg text-sm">#TRX-99210</span>
-                        </td>
-                        <td class="px-8 py-6">
-                            <p class="font-bold text-slate-800">Donni Prabowo</p>
-                            <p class="text-xs text-slate-500">donni@example.com</p>
-                        </td>
-                        <td class="px-8 py-6">
-                            <p class="font-medium text-slate-700">Jazz Night 2024</p>
-                        </td>
-                        <td class="px-8 py-6 text-sm text-slate-500">
-                            26 Mar 2024, 17:45
-                        </td>
-                        <td class="px-8 py-6">
-                            <span
-                                class="px-3 py-1 bg-green-100 text-green-700 rounded-lg text-xs font-bold uppercase ring-1 ring-green-200">Success</span>
-                        </td>
-                        <td class="px-8 py-6 text-right font-black text-slate-900">
-                            Rp 155.000
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-slate-50/50 transition text-slate-400">
-                        <td class="px-8 py-6">
-                            <span
-                                class="font-mono font-bold bg-slate-100 px-3 py-1 rounded-lg text-sm">#TRX-99209</span>
-                        </td>
-                        <td class="px-8 py-6">
-                            <p class="font-bold">Maya Sari</p>
-                            <p class="text-xs">maya@example.com</p>
-                        </td>
-                        <td class="px-8 py-6">
-                            <p class="font-medium">AI & Future Workshop</p>
-                        </td>
-                        <td class="px-8 py-6 text-sm">
-                            26 Mar 2024, 15:20
-                        </td>
-                        <td class="px-8 py-6">
-                            <span
-                                class="px-3 py-1 bg-orange-100 text-orange-700 rounded-lg text-xs font-bold uppercase ring-1 ring-orange-200">Pending</span>
-                        </td>
-                        <td class="px-8 py-6 text-right font-black">
-                            Rp 55.000
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-slate-50/50 transition">
-                        <td class="px-8 py-6">
-                            <span
-                                class="font-mono font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-lg text-sm">#TRX-99208</span>
-                        </td>
-                        <td class="px-8 py-6">
-                            <p class="font-bold text-slate-800">Budi Santoso</p>
-                            <p class="text-xs text-slate-500">budi@example.com</p>
-                        </td>
-                        <td class="px-8 py-6">
-                            <p class="font-medium text-slate-700">Hackathon 2024</p>
-                        </td>
-                        <td class="px-8 py-6 text-sm text-slate-500">
-                            25 Mar 2024, 10:00
-                        </td>
-                        <td class="px-8 py-6">
-                            <span
-                                class="px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold uppercase ring-1 ring-slate-200">Free</span>
-                        </td>
-                        <td class="px-8 py-6 text-right font-black text-slate-900">
-                            Rp 0
-                        </td>
-                    </tr>
+                    @forelse($transactions as $trx)
+                        <tr class="hover:bg-slate-50/50 transition">
+                            <td class="px-8 py-6 align-top">
+                                <span
+                                    class="font-mono font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-lg text-sm">{{ $trx->order_id }}</span>
+                            </td>
+                            <td class="px-8 py-6 align-top">
+                                <p class="font-bold text-slate-800">{{ $trx->customer_name }}</p>
+                                <p class="text-xs text-slate-500">{{ $trx->customer_email }}</p>
+                                <p class="text-xs text-slate-500">{{ $trx->customer_phone }}</p>
+                            </td>
+                            <td class="px-8 py-6 align-top">
+                                <p class="font-medium text-slate-700">{{ $trx->event->title ?? '-' }}</p>
+                            </td>
+                            <td class="px-8 py-6 text-sm text-slate-500 align-top">
+                                {{ $trx->created_at->format('d M Y, H:i') }}
+                            </td>
+                            <td class="px-8 py-6 align-top">
+                                @php
+                                    $statusClass = 'bg-slate-100 text-slate-600 ring-slate-200';
+                                    if (in_array($trx->status, ['settlement', 'success'])) {
+                                        $statusClass = 'bg-emerald-100 text-emerald-700 ring-emerald-200';
+                                    } elseif ($trx->status === 'pending') {
+                                        $statusClass = 'bg-orange-100 text-orange-700 ring-orange-200';
+                                    } elseif ($trx->status === 'expired') {
+                                        $statusClass = 'bg-rose-100 text-rose-700 ring-rose-200';
+                                    }
+                                @endphp
+                                <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase ring-1 {{ $statusClass }}">
+                                    {{ ucfirst($trx->status) }}
+                                </span>
+                            </td>
+                            <td class="px-8 py-6 text-right font-black text-slate-900 align-top">
+                                Rp {{ number_format($trx->total_price, 0, ',', '.') }}
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="px-8 py-10 text-center text-slate-500">
+                                Belum ada transaksi.
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
 
-        <div class="px-8 py-6 bg-slate-50/50 border-t flex justify-between items-center">
-            <p class="text-sm text-slate-500 font-medium">Menampilkan 3 dari 124 transaksi</p>
-            <div class="flex gap-2">
-                <button
-                    class="px-4 py-2 border rounded-xl hover:bg-white transition text-sm font-bold opacity-50 cursor-not-allowed">Previous</button>
-                <button class="px-4 py-2 bg-indigo-600 text-white rounded-xl shadow-md text-sm font-bold">1</button>
-                <button class="px-4 py-2 border rounded-xl hover:bg-white transition text-sm font-bold">2</button>
-                <button
-                    class="px-4 py-2 border rounded-xl hover:bg-white transition text-sm font-bold">Next</button>
+        <div class="px-8 py-6 bg-slate-50/50 border-t flex flex-col gap-4 lg:flex-row lg:justify-between lg:items-center">
+            <p class="text-sm text-slate-500 font-medium">Menampilkan {{ $transactions->count() }} dari {{ $transactions->total() }} transaksi</p>
+            <div>
+                {{ $transactions->links() }}
             </div>
         </div>
     </div>

@@ -58,6 +58,12 @@
         </div>
     </nav>
 
+    @if(session('success'))
+        <div class="max-w-7xl mx-auto px-6 mt-6 rounded-3xl border border-emerald-200 bg-emerald-50 text-emerald-700 shadow-sm py-4">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <!-- Content -->
     @yield('content')
 
