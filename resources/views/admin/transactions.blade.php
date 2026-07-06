@@ -24,21 +24,22 @@
                 <input type="text" placeholder="Cari Order ID, Nama, atau Email..."
                     class="flex-1 px-5 py-3 rounded-xl border-slate-200 border bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm font-medium tracking-wide">
             </div>
-            <div class="flex flex-wrap gap-2">
-                <select
+            
+            <form action="{{ request()->url() }}" method="GET" id="filter-form" class="flex flex-wrap gap-2">
+                <select name="status" onchange="document.getElementById('filter-form').submit();"
                     class="px-5 py-3 rounded-xl border-slate-200 border bg-white outline-none text-sm font-bold">
-                    <option>Semua Status</option>
-                    <option class="text-green-600">Success</option>
-                    <option class="text-orange-600">Pending</option>
-                    <option class="text-rose-600">Expired</option>
+                    <option value="">Semua Status</option>
+                    <option value="success" {{ request('status') == 'success' ? 'selected' : '' }} class="text-green-600">Success</option>
+                    <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }} class="text-orange-600">Pending</option>
+                    <option value="expired" {{ request('status') == 'expired' ? 'selected' : '' }} class="text-rose-600">Expired</option>
                 </select>
-                <select
+
+                <select name="bulan" onchange="document.getElementById('filter-form').submit();"
                     class="px-5 py-3 rounded-xl border-slate-200 border bg-white outline-none text-sm font-bold">
-                    <option>Bulan Ini</option>
-                    <option>Bulan Lalu</option>
-                    <option>Tahun 2024</option>
+                    <option value="">Bulan Ini</option>
+                    <option value="lalu" {{ request('bulan') == 'lalu' ? 'selected' : '' }}>Bulan Lalu</option>
                 </select>
-            </div>
+            </form>
         </div>
 
         <div class="overflow-x-auto">
@@ -73,17 +74,20 @@
                             </td>
                             <td class="px-8 py-6 align-top">
                                 @php
+                                    // Amankan pengecekan dengan lowercase agar kebal dari typo huruf kapital di DB
+                                    $currentStatus = strtolower($trx->status);
+                                    
                                     $statusClass = 'bg-slate-100 text-slate-600 ring-slate-200';
-                                    if (in_array($trx->status, ['settlement', 'success'])) {
+                                    if (in_array($currentStatus, ['settlement', 'success'])) {
                                         $statusClass = 'bg-emerald-100 text-emerald-700 ring-emerald-200';
-                                    } elseif ($trx->status === 'pending') {
+                                    } elseif ($currentStatus === 'pending') {
                                         $statusClass = 'bg-orange-100 text-orange-700 ring-orange-200';
-                                    } elseif ($trx->status === 'expired') {
+                                    } elseif (in_array($currentStatus, ['expired', 'expire', 'cancel', 'deny'])) {
                                         $statusClass = 'bg-rose-100 text-rose-700 ring-rose-200';
                                     }
                                 @endphp
                                 <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase ring-1 {{ $statusClass }}">
-                                    {{ ucfirst($trx->status) }}
+                                    {{ $trx->status }}
                                 </span>
                             </td>
                             <td class="px-8 py-6 text-right font-black text-slate-900 align-top">
@@ -93,7 +97,7 @@
                     @empty
                         <tr>
                             <td colspan="6" class="px-8 py-10 text-center text-slate-500">
-                                Belum ada transaksi.
+                                Belum ada transaksi yang sesuai filter.
                             </td>
                         </tr>
                     @endforelse
