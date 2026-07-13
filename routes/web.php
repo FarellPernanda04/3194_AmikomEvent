@@ -41,3 +41,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('categories', CategoryController::class);
 });
 
+// Webhook Midtrans (Backend-to-Backend)
+Route::post('/midtrans/callback', [\App\Http\Controllers\MidtransWebhookController::class, 'handle']);
+
+
